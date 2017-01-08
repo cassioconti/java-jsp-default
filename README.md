@@ -13,6 +13,10 @@ Use either:
 * `gcloud init`  
 * `gcloud beta auth application-default login`  
   
+## Change config  
+  
+* `Update application tag at src/main/webapp/appengine-web.xml`  
+  
 ## Maven  
   
 ### Running locally  
