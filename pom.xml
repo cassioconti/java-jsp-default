@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>war</packaging>
+  <version>1.0</version>
+
+  <groupId>com.example.appengie</groupId>
+  <artifactId>java-jsp-default</artifactId>
+
+  <dependencies>
+  </dependencies>
+
+  <build>
+    <!-- For hot reload of the web application when using an IDE Eclipse / IDEA -->
+    <outputDirectory>target/${project.artifactId}-${project.version}/WEB-INF/classes</outputDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <version>3.3</version>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.google.appengine</groupId>
+        <artifactId>appengine-maven-plugin</artifactId>
+        <version>1.9.48</version>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
