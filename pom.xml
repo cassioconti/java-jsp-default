@@ -4,11 +4,26 @@
   <modelVersion>4.0.0</modelVersion>
   <packaging>war</packaging>
   <version>1.0</version>
-
   <groupId>com.example.appengie</groupId>
   <artifactId>java-jsp-default</artifactId>
+    <properties>
+        <google-api-client.version>1.22.0</google-api-client.version>
+        <google-api-pubsub.version>v1-rev14-1.22.0</google-api-pubsub.version>
+        <jetty.maven.plugin>9.3.7.v20160115</jetty.maven.plugin>
+        <appengine.maven.plugin>1.0.0</appengine.maven.plugin>
+    </properties>
 
   <dependencies>
+      <dependency>
+          <groupId>com.google.api-client</groupId>
+          <artifactId>google-api-client-appengine</artifactId>
+          <version>${google-api-client.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>com.google.apis</groupId>
+          <artifactId>google-api-services-pubsub</artifactId>
+          <version>${google-api-pubsub.version}</version>
+      </dependency>
   </dependencies>
 
   <build>
@@ -24,11 +39,17 @@
           <target>1.7</target>
         </configuration>
       </plugin>
-      <plugin>
-        <groupId>com.google.appengine</groupId>
-        <artifactId>appengine-maven-plugin</artifactId>
-        <version>1.9.48</version>
-      </plugin>
+        <plugin>
+            <groupId>com.google.cloud.tools</groupId>
+            <artifactId>appengine-maven-plugin</artifactId>
+            <version>${appengine.maven.plugin}</version>
+        </plugin>
+        <plugin>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-maven-plugin</artifactId>
+            <version>${jetty.maven.plugin}</version>
+        </plugin>
+
     </plugins>
   </build>
 
