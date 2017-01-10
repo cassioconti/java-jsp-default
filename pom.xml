@@ -8,6 +8,11 @@
   <groupId>com.example.appengie</groupId>
   <artifactId>java-jsp-default</artifactId>
 
+  <properties>
+    <jetty.maven.plugin>9.3.7.v20160115</jetty.maven.plugin>
+    <appengine.maven.plugin>1.0.0</appengine.maven.plugin>
+  </properties>
+
   <dependencies>
   </dependencies>
 
@@ -25,9 +30,14 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.google.appengine</groupId>
+        <groupId>com.google.cloud.tools</groupId>
         <artifactId>appengine-maven-plugin</artifactId>
-        <version>1.9.48</version>
+        <version>${appengine.maven.plugin}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.jetty</groupId>
+        <artifactId>jetty-maven-plugin</artifactId>
+        <version>${jetty.maven.plugin}</version>
       </plugin>
     </plugins>
   </build>

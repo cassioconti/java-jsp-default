@@ -21,8 +21,8 @@ Use either:
   
 ### Running locally  
   
-    $ mvn appengine:devserver  
+    $ mvn jetty:run
   
 ### Deploying  
   
-    $ mvn appengine:update  
+    $ mvn appengine:deploy
