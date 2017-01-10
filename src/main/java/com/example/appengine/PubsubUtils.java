@@ -7,34 +7,55 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.services.pubsub.Pubsub;
 import com.google.api.services.pubsub.PubsubScopes;
-import com.google.api.services.pubsub.model.PublishRequest;
-import com.google.api.services.pubsub.model.PubsubMessage;
-import com.google.common.collect.ImmutableList;
+import com.google.api.services.pubsub.model.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PubsubUtils {
-    private String projectId = "cassioconti1";
-    private String topicName = "something-happened";
+    private String subscriptionName = "projects/cassioconti1/subscriptions/listening-happened";
 
-    public boolean publishMessage() {
+    public String retrieveMessage(){
         Pubsub client = getClient();
 
-        String message = "Something had happened";
-        String fullTopicName = String.format("projects/%s/topics/%s", projectId, topicName);
-
         try {
-            PubsubMessage pubsubMessage = new PubsubMessage();
-            pubsubMessage.encodeData(message.getBytes("UTF-8"));
-            PublishRequest publishRequest = new PublishRequest();
-            publishRequest.setMessages(ImmutableList.of(pubsubMessage));
+            PullResponse pullResponse;
+            PullRequest pullRequest = new PullRequest()
+                    .setReturnImmediately(true)
+                    .setMaxMessages(1000);
 
-            client.projects().topics()
-                    .publish(fullTopicName, publishRequest)
+            pullResponse = client.projects().subscriptions()
+                    .pull(subscriptionName, pullRequest)
                     .execute();
 
-            return true;
-        } catch (Exception e) {
+            List<String> ackIds = new ArrayList<>();
+            List<ReceivedMessage> receivedMessages = pullResponse.getReceivedMessages();
+            String messagesReceived = "";
+
+            if (receivedMessages != null) {
+
+                for (ReceivedMessage receivedMessage : receivedMessages) {
+                    PubsubMessage pubsubMessage = receivedMessage.getMessage();
+                    if (pubsubMessage != null
+                            && pubsubMessage.decodeData() != null) {
+                        messagesReceived += new String(pubsubMessage.decodeData(), "UTF-8") + " ";
+                    }
+
+                    ackIds.add(receivedMessage.getAckId());
+                }
+
+                AcknowledgeRequest ackRequest = new AcknowledgeRequest();
+                ackRequest.setAckIds(ackIds);
+                client.projects().subscriptions()
+                        .acknowledge(subscriptionName, ackRequest)
+                        .execute();
+            }
+
+            return messagesReceived;
+        }  catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return e.getMessage();
         }
     }
 

@@ -8,6 +8,6 @@ public class Notify {
         return "Version: " + System.getProperty("java.version")
                 + " OS: " + System.getProperty("os.name")
                 + " User: " + System.getProperty("user.name")
-                + " Message published: " + pubsub.publishMessage();
+                + " Message published: " + pubsub.retrieveMessage();
     }
 }
