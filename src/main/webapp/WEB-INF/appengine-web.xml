@@ -2,6 +2,6 @@
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
   <application>cassioconti1</application>
   <version>v1</version>
-  <service>default</service>
+  <service>storagelist</service>
   <threadsafe>true</threadsafe>
 </appengine-web-app>
