@@ -3,7 +3,6 @@ package com.example.appengine;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
 import com.google.api.client.http.*;
-import com.google.api.services.storage.StorageScopes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,10 +12,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class StorageUtils {
 
@@ -27,7 +23,9 @@ public class StorageUtils {
 
         try {
             String uri = String.format("https://www.googleapis.com/storage/v1/b/%s/o", URLEncoder.encode(bucket, "UTF-8"));
-            JsonObject jsonObject = this.getJson(uri, StorageScopes.all());
+            Set<String> scopes = new HashSet<>();
+            scopes.add("https://www.googleapis.com/auth/devstorage.read_only");
+            JsonObject jsonObject = this.getJson(uri, scopes);
 
             JsonArray items = jsonObject.getAsJsonArray("items");
             Iterator<JsonElement> iterator = items.iterator();
