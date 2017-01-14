@@ -14,10 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PubsubUtils {
-    private String subscriptionName = "projects/cassioconti1/subscriptions/listening-happened";
+    private static final String subscriptionName = "projects/cassioconti1/subscriptions/listening-happened";
 
-    public String retrieveMessage(){
+    public List<String> retrieveMessage() {
         Pubsub client = getClient();
+        List<String> messagesReceived = new ArrayList<>();
 
         try {
             PullResponse pullResponse;
@@ -31,15 +32,14 @@ public class PubsubUtils {
 
             List<String> ackIds = new ArrayList<>();
             List<ReceivedMessage> receivedMessages = pullResponse.getReceivedMessages();
-            String messagesReceived = "";
 
             if (receivedMessages != null) {
 
                 for (ReceivedMessage receivedMessage : receivedMessages) {
                     PubsubMessage pubsubMessage = receivedMessage.getMessage();
-                    if (pubsubMessage != null
-                            && pubsubMessage.decodeData() != null) {
-                        messagesReceived += new String(pubsubMessage.decodeData(), "UTF-8") + " ";
+
+                    if (pubsubMessage != null && pubsubMessage.decodeData() != null) {
+                        messagesReceived.add(new String(pubsubMessage.decodeData(), "UTF-8"));
                     }
 
                     ackIds.add(receivedMessage.getAckId());
@@ -53,9 +53,10 @@ public class PubsubUtils {
             }
 
             return messagesReceived;
-        }  catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            return e.getMessage();
+            messagesReceived.add(e.getMessage());
+            return messagesReceived;
         }
     }
 
