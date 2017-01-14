@@ -12,13 +12,14 @@ import com.google.api.services.pubsub.model.PubsubMessage;
 import com.google.common.collect.ImmutableList;
 
 public class PubsubUtils {
-    private String projectId = "cassioconti1";
-    private String topicName = "something-happened";
+
+    private static final String projectId = "cassioconti1";
+    private static final String topicName = "something-happened";
 
     public boolean publishMessage() {
         Pubsub client = getClient();
 
-        String message = "Something had happened";
+        String message = "This is the message saying that something had happened";
         String fullTopicName = String.format("projects/%s/topics/%s", projectId, topicName);
 
         try {
