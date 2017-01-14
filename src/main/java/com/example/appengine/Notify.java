@@ -12,12 +12,9 @@ public class Notify {
         List<StorageObject> storageObjects = storageUtils.listStorageObjects();
         String objects = "";
         for (StorageObject storageObject : storageObjects) {
-            objects += String.format("<br />%s, %s, %s bytes, %s", storageObject.getName(), storageObject.getContentType(), storageObject.getSize(), storageObject.getTimeCreated());
+            objects += String.format("<br /><br />%s<br />%s<br />%s bytes<br />%s", storageObject.getName(), storageObject.getContentType(), storageObject.getSize(), storageObject.getTimeCreated());
         }
 
-        return "Version: " + System.getProperty("java.version")
-                + " OS: " + System.getProperty("os.name")
-                + " User: " + System.getProperty("user.name")
-                + objects;
+        return objects;
     }
 }
