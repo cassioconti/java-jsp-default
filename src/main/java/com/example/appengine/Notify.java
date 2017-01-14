@@ -1,7 +1,5 @@
 package com.example.appengine;
 
-import com.google.api.services.storage.model.StorageObject;
-
 import java.util.List;
 
 public class Notify {
